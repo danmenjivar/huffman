@@ -2,8 +2,6 @@
 Algorithms HW #2
 Huffman
 Based on: https://www.youtube.com/watch?v=nr3bZdL0aCs 
-
-Prints each unique character (most to least frequent) alongside:
 '''
 
 print('Huffman Encoding Program')
@@ -22,15 +20,12 @@ for letter in contents:
         letters.append(letter)
         only_letters.append(letter)
 
-temp_letters_with_frequency = list.copy(letters)
+temp_letters_with_frequency = list.copy(letters)  # this list is used to sort the codes later
 letters_with_frequency = []
-# print(temp_letters_with_frequency) # this list is used to sort the codes
 for i in range(0, len(temp_letters_with_frequency), 2):
     new_element_for_letters_freq = [temp_letters_with_frequency[i], temp_letters_with_frequency[i + 1]]
     letters_with_frequency.append(new_element_for_letters_freq)
 letters_with_frequency.sort(key=lambda x : x[0], reverse=True)
-# print(letters_with_frequency)
-
 nodes = [] # generate the base nodes for the Huffman tree as "[freq, letter] => [7, "e"]"
 while len(letters) > 0:
     nodes.append(letters[0:2])
@@ -67,14 +62,14 @@ for level in huffman_tree:
             checklist.append(node)
         else:
             level.remove(node)
-count = 0
-# for level in huffman_tree: #print tree
+#count = 0
+# for level in huffman_tree: #print huffman tree, commented out unnecessary for problem description
 #     print('Level', count, ':', level)
 #     count += 1
 
 # print()
 
-letter_binary = []
+letter_binary = [] # build a table of the huffman codes
 if len(only_letters) == 1:
     letter_code = [only_letters[0], '0']
     letter_binary.append(letter_code * len(contents))
@@ -87,13 +82,13 @@ else:
         letter_code = [letter, lettercode]
         letter_binary.append(letter_code)
 
-print(letters_with_frequency)
-print(letter_binary)
+lookup = {y : x for x, y in letters_with_frequency} # used to sort the huffman codes by frequency
+huffman_table_sorted = sorted(letter_binary, key=lambda x: lookup[x[0]], reverse=True) # sorts the huffman codes by frequency
 
 print('Binary codes are: ')
 print('Character\tBinary Huffman\tBinary ASCII')
-for letter in letter_binary:
-    print('\'%s\'\t\t%s\t\t%s' % (letter[0], letter[1], bin(ord(letter[0][0]))))
+for i in range(len(huffman_table_sorted)):
+    print('\'%s\'\t\t%s\t\t%s' % (huffman_table_sorted[i][0], huffman_table_sorted[i][1], bin(ord(huffman_table_sorted[i][0][0]))))
 
 bitstring = '' #  create a bitstring of the original message using the created codes
 for character in contents:
