@@ -88,7 +88,7 @@ huffman_table_sorted = sorted(letter_binary, key=lambda x: lookup[x[0]], reverse
 print('Binary codes are: ')
 print('Character\tBinary Huffman\tBinary ASCII')
 for i in range(len(huffman_table_sorted)):
-    print('\'%s\'\t\t%s\t\t%s' % (huffman_table_sorted[i][0], huffman_table_sorted[i][1], bin(ord(huffman_table_sorted[i][0][0]))))
+    print('\'%s\'\t\t%s\t\t%s' % (huffman_table_sorted[i][0], huffman_table_sorted[i][1], bin(ord(huffman_table_sorted[i][0][0]))[2:]))
 
 bitstring = '' #  create a bitstring of the original message using the created codes
 for character in contents:
